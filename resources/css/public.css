@@ -1,0 +1,1494 @@
+/* ================================================================
+   ALPAKA FARM – PUBLIKUS OLDAL
+   A fájl felépítése:
+   1. Változók és alapok
+   2. Fejléc és navigáció
+   3. Közös elemek
+   4. Főoldal
+   5. Űrlapok
+   6. Webshop és kosár
+   7. Profil
+   8. Lábléc
+   9. Reszponzív szabályok
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   1. Változók és alapok
+   ---------------------------------------------------------------- */
+
+:root {
+    --public-green: #315c4b;
+    --public-green-dark: #234437;
+    --public-green-soft: #dfece5;
+    --public-cream: #f8f4ea;
+    --public-sand: #e9dcc4;
+    --public-brown: #6d4c3d;
+    --public-text: #26322d;
+    --public-muted: #66736d;
+    --public-white: #ffffff;
+    --public-line: #e5e2d9;
+    --public-danger: #a62929;
+    --public-success: #25643f;
+    --public-radius: 18px;
+    --public-shadow: 0 12px 35px rgb(49 66 57 / 10%);
+    --public-shadow-strong: 0 18px 45px rgb(35 68 55 / 16%);
+}
+
+.public-site {
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: clip;
+    color: var(--public-text);
+    background: var(--public-cream);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+.public-site * {
+    box-sizing: border-box;
+}
+
+/* A :where() alacsony specificitása miatt nem írja felül a gombszíneket. */
+.public-site :where(a) {
+    color: inherit;
+}
+
+.public-container {
+    width: min(1120px, calc(100% - 2rem));
+    margin-inline: auto;
+}
+
+/* ----------------------------------------------------------------
+   2. Fejléc és navigáció
+   ---------------------------------------------------------------- */
+
+.public-header {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+    background: rgb(248 244 234 / 90%);
+    border-bottom: 1px solid rgb(49 92 75 / 14%);
+    box-shadow: 0 8px 30px rgb(35 68 55 / 8%);
+    backdrop-filter: saturate(140%) blur(16px);
+    -webkit-backdrop-filter: saturate(140%) blur(16px);
+}
+
+.public-navigation {
+    position: relative;
+    display: flex;
+    min-height: 80px;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* A teljes asztali menü egy közös elem, mobilon lenyíló panel lesz. */
+.public-menu-content {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.public-menu-checkbox,
+.public-menu-toggle {
+    display: none;
+}
+
+.public-brand {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--public-green-dark);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    transition:
+        color 150ms ease,
+        transform 150ms ease;
+}
+
+.public-brand-logo {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    filter: drop-shadow(0 7px 9px rgb(35 68 55 / 18%));
+}
+
+.public-brand:hover {
+    color: var(--public-green);
+    transform: translateY(-1px);
+}
+
+.public-nav-links,
+.public-account-links {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.public-nav-links {
+    flex: 1;
+    justify-content: center;
+}
+
+.public-account-links {
+    padding-left: 1rem;
+    border-left: 1px solid rgb(49 92 75 / 18%);
+}
+
+.public-account-links form {
+    display: flex;
+}
+
+.public-nav-links a,
+.public-account-links a,
+.public-logout {
+    display: inline-flex;
+    min-height: 40px;
+    padding: 0.45rem 0.75rem;
+    align-items: center;
+    justify-content: center;
+    color: #43514a;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.94rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        color 150ms ease,
+        background 150ms ease,
+        transform 150ms ease;
+}
+
+.public-nav-links a:hover,
+.public-account-links a:hover,
+.public-logout:hover {
+    color: var(--public-white);
+    background: var(--public-green);
+    transform: translateY(-1px);
+}
+
+.public-nav-links a.active {
+    color: var(--public-white);
+    background: var(--public-green-dark);
+    box-shadow: 0 6px 16px rgb(35 68 55 / 18%);
+}
+
+.public-cart-count {
+    display: inline-grid;
+    min-width: 1.4rem;
+    min-height: 1.4rem;
+    margin-left: 0.25rem;
+    place-items: center;
+    color: var(--public-white);
+    background: var(--public-brown);
+    border-radius: 999px;
+    font-size: 0.75rem;
+}
+
+/* ----------------------------------------------------------------
+   3. Közös elemek: szekciók, gombok, kártyák, visszajelzések
+   ---------------------------------------------------------------- */
+
+.public-section {
+    padding-block: 5rem;
+}
+
+.public-section-white {
+    background:
+        radial-gradient(
+            circle at 88% 18%,
+            rgb(49 92 75 / 8%),
+            transparent 28%
+        ),
+        linear-gradient(135deg, #fffdf9, #f1e8d8);
+}
+
+.public-section-heading {
+    max-width: 700px;
+    margin-bottom: 2rem;
+}
+
+.public-section-heading h1,
+.public-section-heading h2 {
+    margin: 0 0 0.75rem;
+    color: var(--public-green-dark);
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.15;
+}
+
+.public-section-heading p {
+    color: var(--public-muted);
+}
+
+.public-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--public-brown);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.public-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.public-button {
+    display: inline-flex;
+    min-height: 46px;
+    padding: 0.7rem 1.2rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--public-white);
+    background: var(--public-green);
+    border: 2px solid var(--public-green);
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        color 150ms ease,
+        background 150ms ease,
+        border-color 150ms ease,
+        transform 150ms ease;
+}
+
+.public-button:hover {
+    color: var(--public-white);
+    background: var(--public-green-dark);
+    border-color: var(--public-green-dark);
+    transform: translateY(-1px);
+}
+
+.public-button-light {
+    color: var(--public-green-dark);
+    background: var(--public-white);
+    border-color: var(--public-white);
+}
+
+.public-button-light:hover {
+    color: var(--public-white);
+    background: var(--public-green-dark);
+    border-color: var(--public-green-dark);
+}
+
+.public-button-outline {
+    color: var(--public-green);
+    background: transparent;
+}
+
+.public-button-outline:hover {
+    color: var(--public-white);
+}
+
+.public-button-danger {
+    background: var(--public-danger);
+    border-color: var(--public-danger);
+}
+
+.public-grid-3,
+.public-product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.public-card,
+.public-product-card,
+.public-content-card,
+.public-cart-item {
+    padding: 1.5rem;
+    background: var(--public-white);
+    border: 1px solid #e6e1d6;
+    border-radius: var(--public-radius);
+    box-shadow: var(--public-shadow);
+}
+
+.public-card h3,
+.public-product-card h2 {
+    color: var(--public-green-dark);
+}
+
+.public-stack {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.public-narrow {
+    width: min(760px, 100%);
+    margin-inline: auto;
+}
+
+.public-content-card h1 {
+    margin-top: 0;
+    color: var(--public-green-dark);
+}
+
+.public-flash {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+.public-flash-success {
+    color: var(--public-success);
+    background: #e5f5eb;
+}
+
+.public-flash-error {
+    color: var(--public-danger);
+    background: #fbe8e8;
+}
+
+.public-field-error {
+    margin: 0;
+    color: var(--public-danger);
+    font-size: 0.9rem;
+}
+
+.public-status {
+    display: inline-flex;
+    padding: 0.35rem 0.75rem;
+    color: var(--public-green-dark);
+    background: var(--public-sand);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------
+   4. Főoldal és parallax hátterek
+   ---------------------------------------------------------------- */
+
+.public-hero {
+    display: flex;
+    min-height: clamp(540px, 72vh, 720px);
+    align-items: center;
+    color: var(--public-white);
+}
+
+.public-hero-photo {
+    background-color: var(--public-green-dark);
+    background-image:
+        linear-gradient(
+            90deg,
+            rgb(18 54 44 / 96%) 0%,
+            rgb(18 54 44 / 82%) 34%,
+            rgb(18 54 44 / 34%) 62%,
+            rgb(18 54 44 / 6%) 100%
+        ),
+        var(--public-hero-image);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.public-hero-content {
+    width: min(1120px, calc(100% - 2rem));
+    max-width: none;
+    margin-inline: auto;
+    padding-block: 6rem;
+}
+
+.public-hero-copy {
+    max-width: 610px;
+    margin: 0;
+    text-align: left;
+}
+
+.public-hero h1 {
+    margin: 0;
+    color: var(--public-white);
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    line-height: 1.05;
+    text-shadow: 0 3px 20px rgb(0 0 0 / 20%);
+}
+
+.public-hero p {
+    max-width: 570px;
+    margin-block: 1.5rem;
+    color: rgb(255 255 255 / 88%);
+    font-size: 1.15rem;
+}
+
+.public-hero .public-eyebrow {
+    color: #efca92;
+}
+
+.public-hero .public-button-outline {
+    color: var(--public-white);
+    border-color: rgb(255 255 255 / 78%);
+}
+
+.public-hero .public-button-outline:hover {
+    color: var(--public-green-dark);
+    background: var(--public-white);
+    border-color: var(--public-white);
+}
+
+/* A programkártyák mögötti külön fotó. */
+.public-experiences-section {
+    position: relative;
+    overflow: hidden;
+    color: var(--public-white);
+    background-color: var(--public-green-dark);
+    background-image:
+        linear-gradient(
+            rgb(18 54 44 / 62%),
+            rgb(18 54 44 / 72%)
+        ),
+        var(--public-experiences-image);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.public-experiences-section .public-section-heading h2 {
+    color: var(--public-white);
+    text-shadow: 0 3px 18px rgb(0 0 0 / 24%);
+}
+
+.public-experiences-section .public-section-heading p {
+    color: rgb(255 255 255 / 86%);
+}
+
+.public-experiences-section .public-eyebrow {
+    color: #f1cf9b;
+}
+
+.public-experiences-section .public-card {
+    position: relative;
+    display: flex;
+    min-height: 245px;
+    flex-direction: column;
+    color: var(--public-text);
+    background: rgb(255 255 255 / 90%);
+    border-top: 5px solid #d6a867;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.public-experiences-section .public-card::before {
+    display: inline-grid;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 1rem;
+    place-items: center;
+    color: var(--public-white);
+    background: var(--public-green-dark);
+    border-radius: 13px;
+    content: "01";
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.public-experiences-section .public-card:nth-child(2)::before {
+    content: "02";
+}
+
+.public-experiences-section .public-card:nth-child(3)::before {
+    content: "03";
+}
+
+.public-experiences-section .public-card h3 {
+    margin: 0 0 0.7rem;
+    font-size: 1.35rem;
+}
+
+.public-experiences-section .public-card p {
+    margin: 0;
+    color: var(--public-muted);
+}
+
+.public-experiences-section .public-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--public-shadow-strong);
+}
+
+.public-info-band {
+    color: var(--public-white);
+    background: var(--public-green);
+}
+
+.public-info-band .public-grid-3 {
+    padding-block: 3rem;
+}
+
+.public-info-band strong {
+    display: block;
+    font-size: 1.3rem;
+}
+
+/* Az oldal alján lévő foglalási CTA külön parallax képpel. */
+.public-cta-parallax {
+    color: var(--public-white);
+    background-color: var(--public-green-dark);
+    background-image:
+        linear-gradient(
+            rgb(20 55 44 / 76%),
+            rgb(20 55 44 / 83%)
+        ),
+        var(--public-cta-image);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.public-cta-content {
+    display: grid;
+    min-height: 360px;
+    place-content: center;
+    justify-items: center;
+    text-align: center;
+}
+
+.public-cta-parallax .public-section-heading {
+    max-width: 720px;
+    margin: 0 auto 2rem;
+}
+
+.public-cta-parallax .public-section-heading h2 {
+    color: var(--public-white);
+    text-shadow: 0 3px 18px rgb(0 0 0 / 25%);
+}
+
+.public-cta-parallax .public-section-heading p {
+    color: rgb(255 255 255 / 88%);
+}
+
+.public-cta-parallax .public-eyebrow {
+    color: #f1cf9b;
+}
+
+/* Közös háttér a Farmunk, Időpontfoglalás és Webshop oldalakhoz. */
+.public-page-background {
+    min-height: calc(100vh - 80px);
+    background-color: var(--public-green-dark);
+    background-image:
+        linear-gradient(
+            135deg,
+            rgb(18 54 44 / 72%),
+            rgb(34 82 64 / 62%)
+        ),
+        var(--public-page-image);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* A közvetlen oldalcímek a sötétebb fátyol előtt világosak maradnak. */
+.public-page-background
+    > .public-container
+    > .public-section-heading h1,
+.public-page-background
+    > .public-container
+    > .public-section-heading h2 {
+    color: var(--public-white);
+    text-shadow: 0 3px 18px rgb(0 0 0 / 28%);
+}
+
+.public-page-background
+    > .public-container
+    > .public-section-heading p {
+    color: rgb(255 255 255 / 86%);
+}
+
+.public-page-background
+    > .public-container
+    > .public-section-heading .public-eyebrow {
+    color: #f1cf9b;
+}
+
+.public-page-background .public-content-card,
+.public-page-background .public-product-card {
+    background: rgb(255 255 255 / 84%);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+/* A Farmunk oldalon használható három alpaka bemutatókártyája. */
+.public-alpaca-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    align-items: stretch;
+}
+
+.public-alpaca-card {
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    background: rgb(255 255 255 / 92%);
+    border: 1px solid rgb(49 92 75 / 14%);
+    border-radius: var(--public-radius);
+    box-shadow: var(--public-shadow);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transform-origin: center;
+    transition:
+        transform 240ms ease,
+        border-color 240ms ease,
+        box-shadow 240ms ease;
+}
+
+.public-alpaca-card:hover {
+    z-index: 2;
+    transform: translateY(-9px) scale(1.045);
+    border-color: rgb(49 92 75 / 38%);
+    box-shadow: var(--public-shadow-strong);
+}
+
+.public-alpaca-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transition:
+        transform 320ms ease,
+        filter 240ms ease;
+}
+
+/* A fotó külön is közelebb kerül, ettől kevésbé statikus a kártya. */
+.public-alpaca-card:hover .public-alpaca-image {
+    filter: saturate(1.06) contrast(1.03);
+    transform: scale(1.055);
+}
+
+.public-alpaca-copy {
+    padding: 1.5rem;
+    transition: transform 240ms ease;
+}
+
+.public-alpaca-card:hover .public-alpaca-copy {
+    transform: translateY(-4px);
+}
+
+.public-alpaca-copy h2,
+.public-alpaca-copy h3 {
+    margin: 0 0 0.65rem;
+    color: var(--public-green-dark);
+    font-size: clamp(1.8rem, 3vw, 2.15rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+}
+
+.public-alpaca-copy p {
+    margin: 0;
+    color: var(--public-muted);
+}
+
+/* ----------------------------------------------------------------
+   Kapcsolat oldal
+   ---------------------------------------------------------------- */
+
+.public-contact-page {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgb(49 92 75 / 14%),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgb(109 76 61 / 12%),
+            transparent 28%
+        ),
+        linear-gradient(135deg, #f7f1e5, #e8eee7);
+}
+
+.public-contact-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 0.85fr)
+        minmax(0, 1.15fr);
+    gap: 1.75rem;
+    align-items: stretch;
+}
+
+.public-contact-card {
+    position: relative;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    overflow: hidden;
+}
+
+.public-contact-card::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 5px;
+    background: linear-gradient(
+        90deg,
+        var(--public-green),
+        #d6a867
+    );
+    content: "";
+}
+
+.public-contact-card h2,
+.public-map-description h2 {
+    margin-top: 0;
+    color: var(--public-green-dark);
+}
+
+.public-contact-intro {
+    color: var(--public-muted);
+}
+
+.public-contact-details {
+    display: grid;
+    gap: 0.8rem;
+    margin-block: 2rem;
+}
+
+.public-contact-detail {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--public-cream);
+    border-left: 4px solid var(--public-green);
+    border-radius: 10px;
+}
+
+.public-contact-detail dt {
+    color: var(--public-green-dark);
+    font-weight: 800;
+}
+
+.public-contact-detail dd {
+    margin: 0;
+}
+
+.public-contact-detail a {
+    color: var(--public-green);
+    font-weight: 700;
+}
+
+.public-contact-detail small {
+    color: var(--public-muted);
+}
+
+.public-demo-note {
+    padding-top: 1.25rem;
+    margin: 1.75rem 0 0;
+    color: var(--public-muted);
+    border-top: 1px solid var(--public-line);
+    font-size: 0.85rem;
+}
+
+.public-map-card {
+    display: flex;
+    min-height: 570px;
+    overflow: hidden;
+    flex-direction: column;
+    background: var(--public-white);
+    border: 1px solid rgb(49 92 75 / 14%);
+    border-radius: var(--public-radius);
+    box-shadow: var(--public-shadow-strong);
+}
+
+.public-map-frame {
+    width: 100%;
+    min-height: 410px;
+    flex: 1;
+    border: 0;
+}
+
+.public-map-description {
+    padding: 1.5rem;
+}
+
+.public-map-description p {
+    margin-bottom: 0;
+    color: var(--public-muted);
+}
+
+@media (max-width: 850px) {
+    .public-contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .public-map-card {
+        min-height: auto;
+    }
+
+    .public-map-frame {
+        min-height: 360px;
+    }
+}
+
+@media (max-width: 500px) {
+    .public-contact-detail {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+}
+
+
+/* ----------------------------------------------------------------
+   5. Űrlapok
+   ---------------------------------------------------------------- */
+
+.public-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+}
+
+.public-form > div {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.public-form textarea,
+.public-form > .public-field-full,
+.public-form > button {
+    grid-column: 1 / -1;
+}
+
+.public-form label {
+    font-weight: 700;
+}
+
+.public-form input,
+.public-form select,
+.public-form textarea {
+    width: 100%;
+    min-height: 46px;
+    padding: 0.7rem 0.85rem;
+    color: var(--public-text);
+    background: var(--public-white);
+    border: 1px solid #bbbfb9;
+    border-radius: 10px;
+    font: inherit;
+}
+
+.public-form textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.public-form input:focus,
+.public-form select:focus,
+.public-form textarea:focus {
+    border-color: var(--public-green);
+    outline: 3px solid rgb(49 92 75 / 15%);
+}
+
+/* ----------------------------------------------------------------
+   6. Webshop, termékoldal, kosár és pénztár
+   ---------------------------------------------------------------- */
+
+.public-product-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.public-product-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.public-product-card h2 {
+    margin-bottom: 0.5rem;
+}
+
+.public-product-card h2 a {
+    text-decoration: none;
+}
+
+.public-product-description {
+    flex: 1;
+    color: var(--public-muted);
+}
+
+.public-product-placeholder {
+    display: grid;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    place-items: center;
+    color: var(--public-muted);
+    background: #eeeae1;
+    border-radius: 12px;
+}
+
+.public-product-card .public-button {
+    align-self: flex-start;
+    margin-top: 0.75rem;
+}
+
+.public-price {
+    color: var(--public-green);
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.public-stock {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.public-stock-available {
+    color: var(--public-success);
+}
+
+.public-stock-empty {
+    color: var(--public-danger);
+}
+
+.public-back-link {
+    color: var(--public-green);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.public-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+.public-detail-image,
+.public-detail-placeholder {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--public-radius);
+    box-shadow: var(--public-shadow);
+}
+
+.public-detail-price {
+    font-size: 1.8rem;
+}
+
+.public-product-long-description {
+    color: var(--public-muted);
+    white-space: pre-line;
+}
+
+.public-purchase-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block: 1.5rem;
+    align-items: end;
+}
+
+.public-quantity-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 700;
+}
+
+.public-quantity-input {
+    width: 80px;
+    min-height: 46px;
+    padding: 0.6rem;
+    border: 1px solid #bbbfb9;
+    border-radius: 10px;
+    font: inherit;
+}
+
+.public-cart-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.5rem;
+}
+
+.public-cart-item h2 {
+    margin-top: 0;
+    color: var(--public-green-dark);
+}
+
+.public-cart-item img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.public-cart-media,
+.public-cart-placeholder {
+    display: grid;
+    width: 120px;
+    height: 120px;
+    place-items: center;
+}
+
+.public-cart-placeholder {
+    color: var(--public-muted);
+    background: #eeeae1;
+    border-radius: 12px;
+}
+
+.public-cart-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.public-order-summary {
+    position: sticky;
+    top: 100px;
+}
+
+.public-order-line {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.public-order-summary hr {
+    margin-block: 1.5rem;
+    border: 0;
+    border-top: 1px solid #ddd8ce;
+}
+
+.public-order-summary .public-button {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.public-success-card {
+    text-align: center;
+}
+
+.public-success-card .public-actions {
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.public-success-icon {
+    display: grid;
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 1.5rem;
+    place-items: center;
+    color: var(--public-white);
+    background: var(--public-success);
+    border-radius: 50%;
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.public-order-number {
+    display: inline-block;
+    padding: 0.8rem 1.2rem;
+    color: var(--public-green-dark);
+    background: var(--public-cream);
+    border-radius: 10px;
+}
+
+/* ----------------------------------------------------------------
+   7. Profil és előzmények
+   ---------------------------------------------------------------- */
+
+.public-profile-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.public-dashboard-section {
+    margin-top: 4rem;
+}
+
+.public-history-header {
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.public-history-header h3,
+.public-history-header p {
+    margin-top: 0;
+}
+
+.public-content-card details {
+    margin-block: 1rem;
+}
+
+.public-content-card summary {
+    color: var(--public-green);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* ----------------------------------------------------------------
+   8. Lábléc
+   ---------------------------------------------------------------- */
+
+.public-footer {
+    padding-block: 3rem;
+    color: #e8eee9;
+    background: #1f332a;
+}
+
+.public-footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+    gap: 3rem;
+}
+
+.public-footer a {
+    color: var(--public-white);
+}
+
+.public-footer-contact {
+    justify-self: end;
+}
+
+.public-footer-bottom {
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgb(255 255 255 / 14%);
+}
+
+/* ----------------------------------------------------------------
+   9. Reszponzív szabályok
+   A fixed háttér mobilon több böngészőben hibás, ezért ott scrollra vált.
+   ---------------------------------------------------------------- */
+
+/* A hosszú asztali navigáció tablet mérettől hamburger menüre vált. */
+@media (max-width: 1050px) {
+    .public-navigation {
+        min-height: 70px;
+        gap: 0.75rem;
+        padding-block: 0.55rem;
+    }
+
+    .public-menu-checkbox {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        right: 0;
+        display: block;
+        width: 46px;
+        height: 46px;
+        margin: 0;
+        opacity: 0;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .public-menu-toggle {
+        display: grid;
+        width: 46px;
+        height: 46px;
+        margin-left: auto;
+        padding: 11px;
+        place-content: center;
+        gap: 5px;
+        color: var(--public-green-dark);
+        background: rgb(255 255 255 / 62%);
+        border: 1px solid rgb(49 92 75 / 22%);
+        border-radius: 13px;
+        cursor: pointer;
+        transition:
+            color 150ms ease,
+            background 150ms ease,
+            border-color 150ms ease;
+    }
+
+    .public-menu-toggle span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: currentcolor;
+        border-radius: 999px;
+        transition:
+            transform 160ms ease,
+            opacity 160ms ease;
+    }
+
+    .public-menu-checkbox:focus-visible + .public-menu-toggle {
+        outline: 3px solid rgb(49 92 75 / 22%);
+        outline-offset: 2px;
+    }
+
+    .public-menu-checkbox:checked + .public-menu-toggle {
+        color: var(--public-white);
+        background: var(--public-green-dark);
+        border-color: var(--public-green-dark);
+    }
+
+    .public-menu-checkbox:checked + .public-menu-toggle span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .public-menu-checkbox:checked + .public-menu-toggle span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .public-menu-checkbox:checked + .public-menu-toggle span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .public-menu-content {
+        position: absolute;
+        z-index: 30;
+        top: calc(100% + 0.55rem);
+        right: 0;
+        display: none;
+        width: min(380px, calc(100vw - 2rem));
+        max-height: calc(100vh - 100px);
+        padding: 0.8rem;
+        overflow-y: auto;
+        background: rgb(255 253 248 / 97%);
+        border: 1px solid rgb(49 92 75 / 18%);
+        border-radius: 16px;
+        box-shadow: 0 22px 55px rgb(25 48 39 / 22%);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+
+    .public-menu-checkbox:checked ~ .public-menu-content {
+        display: block;
+    }
+
+    .public-menu-content .public-nav-links,
+    .public-menu-content .public-account-links {
+        display: grid;
+        width: 100%;
+        gap: 0.25rem;
+    }
+
+    .public-menu-content .public-account-links {
+        padding: 0.75rem 0 0;
+        margin-top: 0.75rem;
+        border-top: 1px solid rgb(49 92 75 / 16%);
+        border-left: 0;
+    }
+
+    .public-menu-content .public-nav-links a,
+    .public-menu-content .public-account-links a,
+    .public-menu-content .public-logout {
+        width: 100%;
+        min-height: 46px;
+        padding-inline: 0.9rem;
+        justify-content: flex-start;
+        border-radius: 11px;
+    }
+
+    .public-menu-content .public-account-links form {
+        width: 100%;
+    }
+
+    .public-grid-3,
+    .public-product-grid,
+    .public-alpaca-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .public-grid-3,
+    .public-product-grid,
+    .public-detail-grid,
+    .public-alpaca-grid,
+    .public-footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .public-hero-photo {
+        min-height: 560px;
+        background-image:
+            linear-gradient(
+                90deg,
+                rgb(18 54 44 / 92%),
+                rgb(18 54 44 / 62%)
+            ),
+            var(--public-hero-image);
+        background-position: 68% center;
+    }
+
+    .public-hero-photo,
+    .public-experiences-section,
+    .public-cta-parallax,
+    .public-page-background {
+        background-attachment: scroll;
+    }
+
+    .public-profile-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .public-history-header {
+        flex-direction: column;
+    }
+
+    .public-order-summary {
+        position: static;
+    }
+
+    .public-footer-contact {
+        justify-self: start;
+    }
+
+    /* Egy oszlopban kisebb nagyítás kell, hogy ne lógjon ki a képernyőről. */
+    .public-alpaca-card:hover {
+        transform: translateY(-6px) scale(1.015);
+    }
+}
+
+@media (max-width: 600px) {
+    .public-container,
+    .public-hero-content {
+        width: min(100% - 1.25rem, 1120px);
+    }
+
+    .public-brand {
+        gap: 0.5rem;
+        font-size: 1.15rem;
+    }
+
+    .public-brand-logo {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
+
+    .public-section {
+        padding-block: 3rem;
+    }
+
+    .public-section-heading h1,
+    .public-section-heading h2 {
+        font-size: clamp(1.9rem, 10vw, 2.5rem);
+    }
+
+    .public-hero-content {
+        padding-block: 4.5rem;
+    }
+
+    .public-hero h1 {
+        font-size: clamp(2.35rem, 12vw, 3.5rem);
+    }
+
+    .public-hero p {
+        font-size: 1rem;
+    }
+
+    .public-form,
+    .public-cart-item {
+        grid-template-columns: 1fr;
+    }
+
+    .public-card,
+    .public-product-card,
+    .public-content-card,
+    .public-cart-item {
+        padding: 1.15rem;
+    }
+
+    .public-cart-item img,
+    .public-cart-media,
+    .public-cart-placeholder {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+    }
+
+    .public-cart-controls,
+    .public-purchase-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .public-cart-controls .public-button,
+    .public-purchase-form .public-button,
+    .public-quantity-input {
+        width: 100%;
+    }
+
+    .public-hero-copy {
+        max-width: 100%;
+    }
+
+    .public-cta-content {
+        min-height: 320px;
+    }
+
+    .public-map-frame {
+        min-height: 310px;
+    }
+}
+
+@media (max-width: 460px) {
+    .public-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .public-actions .public-button {
+        width: 100%;
+    }
+
+    .public-info-band .public-grid-3 {
+        padding-block: 2.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .public-hero-photo,
+    .public-experiences-section,
+    .public-cta-parallax,
+    .public-page-background {
+        background-attachment: scroll;
+    }
+
+    .public-brand,
+    .public-nav-links a,
+    .public-account-links a,
+    .public-logout,
+    .public-button,
+    .public-experiences-section .public-card,
+    .public-alpaca-card,
+    .public-alpaca-image,
+    .public-alpaca-copy {
+        transition: none;
+    }
+
+    .public-brand:hover,
+    .public-nav-links a:hover,
+    .public-account-links a:hover,
+    .public-logout:hover,
+    .public-button:hover,
+    .public-experiences-section .public-card:hover,
+    .public-alpaca-card:hover,
+    .public-alpaca-card:hover .public-alpaca-image,
+    .public-alpaca-card:hover .public-alpaca-copy {
+        transform: none;
+    }
+}
